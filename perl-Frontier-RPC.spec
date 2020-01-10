@@ -1,7 +1,7 @@
 Summary:        A Perl interface for making and serving XML-RPC calls
 Name:           perl-Frontier-RPC
 Version:        0.07b4p1
-Release:        9%{?dist}
+Release:        10%{?dist}
 License:        GPL+ or Artistic
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Frontier-RPC/
@@ -11,6 +11,8 @@ Patch1:         perl-frontier-raw-serve.patch
 Patch2:         perl-frontier-undef-scalar.patch
 Patch3:         security-xml-external-entity.patch
 Patch4:         apache2.patch
+# Respect proxy setting for HTTPS, bug #832390, CPAN RT#117812
+Patch5:         Frontier-RPC-0.07b4p1-Respect-proxy-setting-for-HTTPS.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  perl(LWP::UserAgent), perl(XML::Parser), perl(ExtUtils::MakeMaker)
@@ -51,6 +53,7 @@ Documentation and examples to Frontier::RPC and Frontier::RPC::Client.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
@@ -87,6 +90,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Tue Sep 13 2016 Petr Pisar <ppisar@redhat.com> - 0.07b4p1-10
+- Respect proxy setting for HTTPS (bug #832390)
+
 * Mon May  3 2010 Marcela Mašláňová <mmaslano@redhat.com> - 0.07b4p1-9
 - create doc sub-package to solve conflicts
 - Related: rhbz#543948
